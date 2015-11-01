@@ -7,8 +7,7 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+        <link rel="stylesheet" type="text/css" href="../css/index.css" />
         <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
@@ -49,32 +48,39 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">IMHere</a>
+          <a class="navbar-brand" href="../index.html">IMHere</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="templates/chat.html">Show Chats</a></li>
+            <li><a href="#">Show Chats</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-
+    
         <div class="status">
 
+		<p id="geolocation">Finding geolocation...</p>
             
-            <h1>IM {{statusDevice}}</h1>
+            <h1>IM {{numberChat}}</h1>
 
         </div>
 
-        <div ng-repeat="i in getNumber(number) track by $index" class="w3-card-4" ng-click="openChat($index+1)">
-            <p >Contact Number-{{$index+1}}</p>
+
+        <div class="row">
+            <div id="map" class="col-md-6"></div>
         </div>
-    </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/angularCall.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+        <div class="row">
+            <div id="panel" class="col-md-6"></div>
+        </div>
+        </div>
+        <script type="text/javascript" src="../cordova.js"></script>
+        <script type="text/javascript" src="../js/index.js"></script>
+        <script type="text/javascript" src="../js/map.js"></script>
+        <script type="text/javascript" src="../js/angularCall.js"></script>
+
 
     </body>
 </html>

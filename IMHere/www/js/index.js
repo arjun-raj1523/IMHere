@@ -25,3 +25,4 @@
     function onError(error) {
         alert("Error Getting Location");
     }
+
