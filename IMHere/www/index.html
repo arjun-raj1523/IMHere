@@ -52,6 +52,7 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
         <title>IMHere</title>
+
     </head>
     <body ng-app="myApp" ng-controller="myCtrl">
 
@@ -60,7 +61,7 @@
     <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -69,7 +70,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Show Chats</a></li>
+            <li><a href="#">Show Chats</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -79,7 +80,8 @@
     
         <div class="status">
 
-            IM {{statusDevice}}
+<p id="geolocation">Finding geolocation...</p>
+            <h1>IM {{statusDevice}}</h1>
 
         </div>
 
