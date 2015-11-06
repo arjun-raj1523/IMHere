@@ -17,13 +17,15 @@ function synchronizeMaps(firstMap) {
     // interactive map and set this values to the second, non-interactive, map
 
 //send to child.js
-
+    
+  
 
 
 
     viewModel2.setCameraData(viewModel1.getCameraData());
   });
 }
+
 
 
 

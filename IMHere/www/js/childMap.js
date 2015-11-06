@@ -16,7 +16,17 @@ function synchronizeMaps(secondMap) {
     // on every view change take a "snapshot" of a current geo data for
     // interactive map and set this values to the second, non-interactive, map
 
-//ger from parent.js
+//get from parent.js
+
+    /*
+    *
+    */
+
+    $.getJSON("http://arjunraj.net/HandsPlus/getData.php", function(result){
+            $.each(result, function(i, field){
+                console.log(field);
+            });
+        });
 
 
 
