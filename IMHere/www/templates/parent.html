@@ -7,8 +7,7 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+        <link rel="stylesheet" type="text/css" href="../css/index.css" />
         <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" />
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
         <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
@@ -53,29 +52,36 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="templates/parent.html">Share Location</a></li>
+            <li><a href="#">Share Location</a></li>
           </ul>
           <ul class="nav navbar-nav">
-            <li><a href="templates/child.html">Request Location</a></li>
+            <li><a href="child.html">Request Location</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-
+    
         <div class="status">
 
-            
-            <h1>IM {{statusDevice}}</h1>
+		<p id="geolocation">Finding geolocation...</p>
 
         </div>
 
-       
-    </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/angularCall.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+
+
+            <div id="map" class="col-md-6"></div>
+
+
+            
+
+        </div>
+        <script type="text/javascript" src="../cordova.js"></script>
+
+        <script type="text/javascript" src="../js/parentMap.js"></script>
+        <script type="text/javascript" src="../js/angularCall.js"></script>
+
 
     </body>
 </html>
