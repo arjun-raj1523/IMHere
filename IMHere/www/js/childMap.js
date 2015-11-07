@@ -5,11 +5,13 @@
  *  @param  {H.Map} secondMap  A HERE Map instance within the application
  */
 
-function synchronizeMaps(secondMap) {
+//get Data from parent
+
+ function synchronizeMaps(secondMap) {
   // get view model objects for both maps, view model contains all data and
   // utility functions that're related to map's geo state
   var viewModel1 = secondMap.getViewModel(),
-      viewModel2 = secondMap.getViewModel();
+  viewModel2 = secondMap.getViewModel();
 
   // set up view change listener on interactive map
   secondMap.addEventListener('mapviewchange', function() {
@@ -21,13 +23,14 @@ function synchronizeMaps(secondMap) {
     /*
     *
     */
+    
 
     $.getJSON("http://arjunraj.net/HandsPlus/getData.php", function(result){
-            $.each(result, function(i, field){
-                console.log(field);
-            });
+      $.each(result, function(i, field){
+                //console.log(field);
+              });
 
-        });
+    });
 
 
 
@@ -39,26 +42,26 @@ function synchronizeMaps(secondMap) {
 
 function getCurrentLocation(){
 
-navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
 
 }
 
 function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' ;
+  var element = document.getElementById('geolocation');
+  element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+  'Longitude: '          + position.coords.longitude             + '<br />' ;
 
-        locationCordinates=[position.coords.latitude,position.coords.longitude];
+  locationCordinates=[position.coords.latitude,position.coords.longitude];
 
 
-var platform = new H.service.Platform({
-  app_id: 'DemoAppId01082013GAL',
-  app_code: 'AJKnXv84fjrb0KIHawS0Tg',
-  useCIT: true,
-  useHTTPS: true
-});
-var defaultLayers = platform.createDefaultLayers();
+  var platform = new H.service.Platform({
+    app_id: 'DemoAppId01082013GAL',
+    app_code: 'AJKnXv84fjrb0KIHawS0Tg',
+    useCIT: true,
+    useHTTPS: true
+  });
+  var defaultLayers = platform.createDefaultLayers();
 
 // set up containers for the map
 
@@ -88,24 +91,22 @@ var map = new H.Map(mapContainer,
 // initialize a map that will be synchronised
 
 
- staticMap = new H.Map(staticMapContainer,
+staticMap = new H.Map(staticMapContainer,
   defaultLayers.normal.map,{
-  center: {lat: locationCordinates[0], lng: locationCordinates[1]},
-  zoom: 12
-});
+    center: {lat: locationCordinates[0], lng: locationCordinates[1]},
+    zoom: 13
+  });
 
-var locationMarker = new H.map.Marker({lat:locationCordinates[0], lng:locationCordinates[1]});
-  staticMap.addObject(locationMarker);
+ // Create the default UI:
+ var ui = H.ui.UI.createDefault(staticMap, defaultLayers);
+
+ var locationMarker = new H.map.Marker({lat:locationCordinates[0], lng:locationCordinates[1]});
+ staticMap.addObject(locationMarker);
 
 // MapEvents enables the event system
 // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
 // create beahvior only for the first map
-//var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-
-
-
-
+var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(staticMap));
 
 
 // Now use the map as required...
@@ -114,9 +115,9 @@ calculateRouteFromAtoB(platform,locationCordinates);
 
 
 
-    }
+}
 
-function onSuccess1(result) {
+function onSuccessRoute(result) {
   var route = result.response.route[0];
  /*
   * The styling of the route response on the map is entirely under the developer's control.
@@ -131,11 +132,12 @@ function onSuccess1(result) {
   // ... etc.
 }
 
+//Add route to Map
 
 function addRouteShapeToMap(route){
   var strip = new H.geo.Strip(),
-    routeShape = route.shape,
-    polyline;
+  routeShape = route.shape,
+  polyline;
 
   routeShape.forEach(function(point) {
     var parts = point.split(',');
@@ -156,13 +158,19 @@ function addRouteShapeToMap(route){
 
 
 function calculateRouteFromAtoB (platform,locationCordinates) {
+
+    //current locaiton
+
     var location_1_1=String(locationCordinates[0]);
     var location_1_2=String(locationCordinates[1]);
+
+    //destination sent from parent
+
     var location_2_1=String(locationCordinates[0]-0.02);
     var location_2_2=String(locationCordinates[1]-0.02);
     var locationMarker = new H.map.Marker({lat:locationCordinates[0]-0.02, lng:locationCordinates[1]-0.02});
-      staticMap.addObject(locationMarker);
-  var router = platform.getRoutingService(),
+    staticMap.addObject(locationMarker);
+    var router = platform.getRoutingService(),
 
 
     routeRequestParams = {
@@ -170,28 +178,28 @@ function calculateRouteFromAtoB (platform,locationCordinates) {
       representation: 'display',
       routeattributes : 'waypoints,summary,shape,legs',
       
-      waypoint0: location_1_1+','+location_1_2, // Brandenburg Gate
-      waypoint1: location_2_1+','+location_2_2 // Friedrichstraße Railway Station
+      waypoint0: location_1_1+','+location_1_2, 
+      waypoint1: location_2_1+','+location_2_2 
     };
 
 
-  router.calculateRoute(
-    routeRequestParams,
-    onSuccess1,
-    onError
-  );
-}
+    router.calculateRoute(
+      routeRequestParams,
+      onSuccessRoute,
+      onError
+      );
+  }
 
 
     // onError Callback receives a PositionError object
     //
     function onError(error) {
-        alert("Error Getting Location");
+      alert("Error Getting Location");
     }
 
 
-getCurrentLocation();
+    getCurrentLocation();
 
 
 
-//setInterval(getCurrentLocation, 10000);
+    setInterval(getCurrentLocation, 10000);
