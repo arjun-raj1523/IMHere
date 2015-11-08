@@ -7,61 +7,84 @@
 
 //get Data from parent
 
- function synchronizeMaps(secondMap) {
+function synchronizeMaps() {
   // get view model objects for both maps, view model contains all data and
   // utility functions that're related to map's geo state
-  var viewModel1 = secondMap.getViewModel(),
-  viewModel2 = secondMap.getViewModel();
+  //var viewModel1 = secondMap.getViewModel(),
+  //viewModel2 = secondMap.getViewModel();
 
   // set up view change listener on interactive map
-  secondMap.addEventListener('mapviewchange', function() {
+  //secondMap.addEventListener('mapviewchange', function() {
     // on every view change take a "snapshot" of a current geo data for
     // interactive map and set this values to the second, non-interactive, map
 
-//get from parent.js
 
-    /*
-    *
-    */
-    
 
-    $.getJSON("http://arjunraj.net/HandsPlus/getData.php", function(result){
-      $.each(result, function(i, field){
-                //console.log(field);
-              });
 
+$.ajax({
+
+  type: 'POST',
+
+        //data: 'sendid=1234&amp;lat='+ position.coords.latitude +'&amp;longi='+position.coords.longitude ,
+
+        data:{
+          sendid: "1234",//NOT to change
+          myid: "123"
+
+//            lat: position.coords.latitude,
+//            longi: position.coords.longitude
+
+},
+url: 'http://arjunraj.net/IMHere/getdata.php',
+
+success: function(response){
+  destinationCoordinates=[response.records[0].lat,response.records[0].longi]
+            //calculateRouteFromAtoB(platform,destinationCoordinates);
+loadMap(destinationCoordinates);
+
+},
+
+error: function(response){
+
+
+  console.log(response);
+console.log("I'm Here");
+
+
+
+}
+
+
+
+
+});
+
+/*
+
+$.get("http://arjunraj.net/IMHere/getdata.php", { sendid:"1234"  }, function(d,s){
+            
+            console.log(d);
+            
+
+            console.log('Your comment was successfully added');
+      
     });
 
 
+*/
 
-
-
-    viewModel2.setCameraData(viewModel1.getCameraData());
-  });
+//viewModel2.setCameraData(viewModel1.getCameraData());
 }
 
-function getCurrentLocation(){
+function loadMap(destinationCoordinates){
 
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-
-
-}
-
-function onSuccess(position) {
-  var element = document.getElementById('geolocation');
-  element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-  'Longitude: '          + position.coords.longitude             + '<br />' ;
-
-  locationCordinates=[position.coords.latitude,position.coords.longitude];
-
-
-  var platform = new H.service.Platform({
-    app_id: 'DemoAppId01082013GAL',
-    app_code: 'AJKnXv84fjrb0KIHawS0Tg',
-    useCIT: true,
-    useHTTPS: true
-  });
-  var defaultLayers = platform.createDefaultLayers();
+            var platform = new H.service.Platform({
+              app_id: 'DemoAppId01082013GAL',
+              app_code: 'AJKnXv84fjrb0KIHawS0Tg',
+              useCIT: true,
+              useHTTPS: true
+            });
+            var defaultLayers = platform.createDefaultLayers();
 
 // set up containers for the map
 
@@ -75,8 +98,8 @@ mapContainer.style.height = '360px';
 mapContainer.style.margin = '19px';
 */
 staticMapContainer.style.position = 'absolute';
-staticMapContainer.style.width = '90%';
-staticMapContainer.style.height = '360px';
+staticMapContainer.style.width = '100%';
+staticMapContainer.style.height = '250%';
 
 //document.getElementById('map').appendChild(mapContainer);
 document.getElementById('panel').appendChild(staticMapContainer);
@@ -92,7 +115,7 @@ var map = new H.Map(mapContainer,
 
 
 staticMap = new H.Map(staticMapContainer,
-  defaultLayers.normal.map,{
+  defaultLayers.satellite.map,{
     center: {lat: locationCordinates[0], lng: locationCordinates[1]},
     zoom: 13
   });
@@ -108,12 +131,29 @@ staticMap = new H.Map(staticMapContainer,
 // create beahvior only for the first map
 var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(staticMap));
 
-
-// Now use the map as required...
-synchronizeMaps(staticMap);
-calculateRouteFromAtoB(platform,locationCordinates);
+calculateRouteFromAtoB(platform,locationCordinates,destinationCoordinates);
 
 
+//console.log('Your comment was successfully added');
+
+}
+
+function getCurrentLocation(){
+
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+
+}
+
+function onSuccess(position) {
+  /*
+  var element = document.getElementById('geolocation');
+  element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+  'Longitude: '          + position.coords.longitude             + '<br />' ;
+*/
+  locationCordinates=[position.coords.latitude,position.coords.longitude];
+   
+synchronizeMaps();
 
 }
 
@@ -124,6 +164,8 @@ function onSuccessRoute(result) {
   * A representitive styling can be found the full JS + HTML code of this example
   * in the functions below:
   */
+
+  //console.log(result.response.route[0].leg[0].maneuver[0].instruction);
 
   addRouteShapeToMap(route);
   
@@ -157,7 +199,7 @@ function addRouteShapeToMap(route){
 }
 
 
-function calculateRouteFromAtoB (platform,locationCordinates) {
+function calculateRouteFromAtoB (platform,locationCordinates,destinationCoordinates) {
 
     //current locaiton
 
@@ -166,9 +208,11 @@ function calculateRouteFromAtoB (platform,locationCordinates) {
 
     //destination sent from parent
 
-    var location_2_1=String(locationCordinates[0]-0.02);
-    var location_2_2=String(locationCordinates[1]-0.02);
-    var locationMarker = new H.map.Marker({lat:locationCordinates[0]-0.02, lng:locationCordinates[1]-0.02});
+    var location_2_1=String(destinationCoordinates[0]-0.01);
+    var location_2_2=String(destinationCoordinates[1]-0.01);
+
+
+    var locationMarker = new H.map.Marker({lat:destinationCoordinates[0]-0.01, lng:destinationCoordinates[1]-0.01});
     staticMap.addObject(locationMarker);
     var router = platform.getRoutingService(),
 
@@ -202,4 +246,4 @@ function calculateRouteFromAtoB (platform,locationCordinates) {
 
 
 
-    setInterval(getCurrentLocation, 10000);
+    setInterval(getCurrentLocation, 20000);

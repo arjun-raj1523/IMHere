@@ -6,9 +6,8 @@
         <param name="onload" value="true" />
     </feature>
     <allow-intent href="market:*" />
-    <name>DemoApp</name>
-    <description>Hello World sample application that responds to the deviceready event.</description>
-    <author email="support@phonegap.com" href="http://phonegap.com">PhoneGap Team</author>
+    <name>IMHere</name>
+    <author email="arajago5@hawk.iit.edu" href="http://www.arjunraj.net" />
     <content src="index.html" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />

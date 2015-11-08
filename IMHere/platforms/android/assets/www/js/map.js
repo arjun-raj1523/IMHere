@@ -15,6 +15,10 @@ function synchronizeMaps(firstMap, secondMap) {
   firstMap.addEventListener('mapviewchange', function() {
     // on every view change take a "snapshot" of a current geo data for
     // interactive map and set this values to the second, non-interactive, map
+
+//send to DB 
+
+
     viewModel2.setCameraData(viewModel1.getCameraData());
   });
 }
@@ -46,7 +50,7 @@ staticMapContainer.style.width = '87%';
 staticMapContainer.style.height = '360px';
 
 document.getElementById('map').appendChild(mapContainer);
-document.getElementById('panel').appendChild(staticMapContainer);
+//document.getElementById('panel').appendChild(staticMapContainer);
 
 // initialize a map, this map is interactive
 var map = new H.Map(mapContainer,
